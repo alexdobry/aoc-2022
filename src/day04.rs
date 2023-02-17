@@ -3,7 +3,7 @@ use std::fs;
 type ElfRange = (u32, u32);
 
 fn parse_elf_range(str: &str) -> ElfRange {
-    let (l, r) = str.split_once("-").unwrap();
+    let (l, r) = str.split_once('-').unwrap();
     (l.parse().unwrap(), r.parse().unwrap())
 }
 
@@ -13,7 +13,7 @@ fn read_input() -> Vec<(ElfRange, ElfRange)> {
     contents
         .lines()
         .map(|l| {
-            let (l, r) = l.split_once(",").unwrap();
+            let (l, r) = l.split_once(',').unwrap();
             (parse_elf_range(l), parse_elf_range(r))
         })
         .collect()

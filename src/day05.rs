@@ -13,14 +13,14 @@ struct Instruction {
 
 fn parse_table(table: &str) -> Table {
     let mut res: Table = Table { stacks: vec![] };
-    let (table, legend) = table.rsplit_once("\n").unwrap();
+    let (table, legend) = table.rsplit_once('\n').unwrap();
     for _ in legend.split_whitespace() {
         res.stacks.push(vec![]);
     }
     for line in table.lines().rev() {
         let bytes = line.as_bytes();
         for i in 0..res.stacks.len() {
-            let char = bytes[1 as usize + i * 4] as char;
+            let char = bytes[1_usize + i * 4] as char;
             if !char.is_whitespace() {
                 res.stacks[i].push(char);
             }

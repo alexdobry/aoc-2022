@@ -30,7 +30,7 @@ impl Shape {
 
   fn yields(&self, outcome: &Outcome) -> Shape {
     for shape in [Shape::Rock, Shape::Paper, Shape::Scissor] {
-      if &shape.fight(&self) == outcome { return shape; }
+      if &shape.fight(self) == outcome { return shape; }
     }
     unreachable!()
   }
@@ -78,7 +78,7 @@ fn read_input() -> Vec<(Shape, String)> {
     .expect("Should have been able to read the file");
   let mut result = Vec::new();
   for line in contents.lines() {
-    let (left, right) = line.split_once(" ").unwrap();
+    let (left, right) = line.split_once(' ').unwrap();
     result.push((Shape::parse(left), right.into()))
   }
   result

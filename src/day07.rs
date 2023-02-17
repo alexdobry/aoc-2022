@@ -5,7 +5,7 @@ type Path = Vec<String>;
 
 #[derive(Debug)]
 enum FileOrDir {
-    File { name: String, size: i32 },
+    File(i32),
     Dir(String),
 }
 
@@ -21,7 +21,7 @@ enum Instruction {
 fn read_input() -> Vec<Instruction> {
     let file_path = "inputs/day07.txt";
     let input = fs::read_to_string(file_path).expect("Should have been able to read the file");
-    let mut cmds = input.split("$");
+    let mut cmds = input.split('$');
     let mut instructions = vec![];
     cmds.next();
     for cmd in cmds {
@@ -35,15 +35,12 @@ fn read_input() -> Vec<Instruction> {
         } else if let Some(listing) = cmd.strip_prefix("ls\n") {
             let mut entries = vec![];
             for line in listing.lines() {
-                let (lhs, rhs) = line.split_once(" ").unwrap();
+                let (lhs, rhs) = line.split_once(' ').unwrap();
                 if lhs == "dir" {
                     entries.push(FileOrDir::Dir(rhs.to_string()));
                 } else {
                     let size = lhs.parse().unwrap();
-                    entries.push(FileOrDir::File {
-                        name: rhs.to_string(),
-                        size,
-                    });
+                    entries.push(FileOrDir::File(size));
                 }
             }
             instructions.push(Instruction::Ls(entries));
@@ -78,7 +75,7 @@ fn size_of_dir(fs: &FS, dir: &Path) -> i32 {
     let mut acc = 0;
     for entry in entries {
         match entry {
-            FileOrDir::File { size, .. } => {
+            FileOrDir::File(size) => {
                 acc += size;
             }
             FileOrDir::Dir(path) => {

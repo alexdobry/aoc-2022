@@ -8,9 +8,9 @@ fn read_input() -> String {
 fn is_distinct(slice: &[char]) -> bool {
     let mut acc: u32 = 0;
     for char in slice {
-        acc |= 1 << *char as u32 - 96;
+        acc |= 1 << (*char as u32 - 96);
     }
-    return acc.count_ones() == slice.len() as u32;
+    acc.count_ones() == slice.len() as u32
 }
 
 fn solve(window_size: usize) {
