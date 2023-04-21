@@ -186,12 +186,11 @@ pub fn solve2() {
 #[cfg(test)]
 mod tests {
     use crate::day12::parse_input;
-    use crate::day12::shortest_path;
 
     #[test]
     fn it_works() {
         let input = "abcSE";
-        let (g, _, s, e) = parse_input(input.to_string());
+        let (g, _, _s, _e) = parse_input(input.to_string());
         dbg!(&g);
         dbg!(g.transpose());
     }
