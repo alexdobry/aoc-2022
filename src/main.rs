@@ -46,4 +46,5 @@ fn main() {
     day14::solve1();
     day14::solve2();
     day15::solve1();
+    day15::solve2();
 }
