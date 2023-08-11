@@ -2,6 +2,8 @@ use std::cmp::Ordering;
 use std::collections::{BinaryHeap, HashMap, HashSet};
 use std::fs;
 
+use rayon::prelude::*;
+
 #[derive(Clone, Debug)]
 struct Room {
     name: String,
@@ -196,7 +198,7 @@ fn bfs(rooms: &Vec<Room>, current_path: Vec<String>, max_time: i32) -> Vec<Vec<S
         vec![current_path]
     } else {
         new_paths
-            .into_iter()
+            .into_par_iter()
             .flat_map(|p| bfs(rooms, p, max_time))
             .collect()
     }
@@ -208,7 +210,7 @@ pub fn solve1() {
     populate_room_graph(&mut rooms);
     let paths = bfs(&rooms, vec!["AA".to_string()], max_time);
     let result = paths
-        .into_iter()
+        .into_par_iter()
         .map(|steps| eval(&rooms, steps, max_time))
         .max()
         .unwrap();
@@ -220,12 +222,19 @@ pub fn solve2() {
     let mut rooms = read_input();
     populate_room_graph(&mut rooms);
     let paths = bfs(&rooms, vec!["AA".to_string()], max_time);
-    // for path1 in paths.iter() {
-    //     paths.iter().filter(|path2|  )
-    // }
-    let result = paths
-        .into_iter()
-        .map(|steps| eval(&rooms, steps, max_time))
+    let path_pairs: Vec<(Vec<String>, Vec<String>)> = paths
+        .par_iter()
+        .flat_map(|path1| {
+            paths
+                .iter()
+                .filter(|path2| !path1.iter().any(|r| r != "AA" && path2.contains(r)))
+                .map(|p2| (path1.clone(), p2.clone()))
+                .collect::<Vec<_>>()
+        })
+        .collect();
+    let result = path_pairs
+        .into_par_iter()
+        .map(|(steps1, steps2)| eval(&rooms, steps1, max_time) + eval(&rooms, steps2, max_time))
         .max()
         .unwrap();
     println!("{result}");
