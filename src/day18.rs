@@ -99,6 +99,7 @@ impl Solve2 {
         }
     }
 
+    #[allow(clippy::if_same_then_else, clippy::needless_bool)]
     fn is_free(&self, cube: &Cube) -> bool {
         if self.is_free.contains(cube) {
             true
@@ -145,7 +146,7 @@ impl Solve2 {
         }
 
         self.is_trapped.extend(visited);
-        return false;
+        false
     }
 
     pub fn solve2(&mut self) {
@@ -166,21 +167,4 @@ impl Solve2 {
 
 pub fn solve2() {
     Solve2::new().solve2()
-}
-
-fn test_cubes() -> Vec<Cube> {
-    let input = "2,2,2
-1,2,2
-3,2,2
-2,1,2
-2,3,2
-2,2,1
-2,2,3
-2,2,4
-2,2,6
-1,2,5
-3,2,5
-2,1,5
-2,3,5";
-    parse_input(input.to_string())
 }
