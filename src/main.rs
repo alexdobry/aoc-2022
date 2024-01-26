@@ -20,6 +20,7 @@ mod day19;
 mod day20;
 mod day21;
 mod day22;
+mod day23;
 
 fn main() {
     day01::solve1();
@@ -69,4 +70,6 @@ fn main() {
     day22::solve1();
     // day 22 part 2 is still wrong
     day22::solve2();
+    day23::solve1();
+    day23::solve2();
 }
